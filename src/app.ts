@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-redeclare */
 showHello('greeting', 'TypeScript');
 
@@ -9,8 +10,22 @@ function showHello(divName: string, name: string) {
 // task 02.01
 enum Category {JavaScript, CSS, HTML, TypeScript, Angular}
 
-function getAllBooks() {
-    const booksCollection = <const> [
+interface DamageLogger {
+    (reason: string): string;
+}
+interface Book {
+    id: number;
+    title: string;
+    author: string;
+    available: boolean;
+    category: Category;
+    pages?: number;
+    // markDamaged?: (reason: string) => void;
+    markDamaged?: DamageLogger;
+}
+
+function getAllBooks(): ReadonlyArray<Book> {
+    const booksCollection: readonly Book[] = <const> [
         { id: 1, category: Category.JavaScript, title: 'Refactoring JavaScript', author: 'Evan Burchard', available: true},
         { id: 2, category: Category.JavaScript, title: 'JavaScript Testing', author: 'Liang Yuxian Eugene', available: false },
         { id: 3, category: Category.CSS, title: 'CSS Secrets', author: 'Lea Verou', available: true },
@@ -86,7 +101,7 @@ function createCustomer(name: string, age?: number, city?: string): void {
 
 // logFirstAvailable();
 
-function getBookByID(id: number): any {
+function getBookByID(id: number): Book | undefined {
     const books = getAllBooks();
     return books.find(book => book.id === id);
 }
@@ -102,7 +117,7 @@ function сheckoutBooks(customer: string, ...booksIDs: number[]): string[] {
         return acc;
     }, []);
 }
-const myBooks = сheckoutBooks('Ann', 1, 2, 4);
+// const myBooks = сheckoutBooks('Ann', 1, 2, 4);
 // console.log(myBooks)
 
 function getTitles(author: string): string[];
@@ -146,3 +161,118 @@ function bookTitleTransform(val: any): string {
 }
 // console.log(bookTitleTransform('typescript'));
 // console.log(bookTitleTransform(100500));
+
+// Task 04.01
+function printBook(book: Book): void {
+    console.log(`${book.title} buy ${book.author}}`);
+}
+
+const myBook: Book = {
+    id: 5,
+    title: 'Colors, Backgrounds, and Gradients',
+    author: 'Eric A. Meyer',
+    available: true,
+    category: Category.CSS,
+    markDamaged: (reason: string) => `Damaged: ${reason}`,
+    /* year: 2015,
+    copies: 3 */
+};
+// printBook(myBook);
+// console.log(myBook.markDamaged('no black color'));
+
+// Task 04.02
+const logDamage: DamageLogger = (reason: string) => `Damaged: ${reason}`;
+// console.log(logDamage('missing back cover'));
+
+// Task 04.03
+interface Person {
+    name: string;
+    email: string;
+}
+
+interface Author extends Person {
+    numBooksPublished: number;
+}
+
+interface Librarian extends Person {
+    department: string;
+    assistCutomer: (custName: string) => void;
+}
+
+const favoriteAuthor: Author = {
+    name: 'Anna',
+    email: 'anna@gmail.com',
+    numBooksPublished: 3
+};
+
+const favoriteLiabrarian: Librarian = {
+    name: 'Anna',
+    email: 'anna@gmail.com',
+    department: 'adwadaw',
+    assistCutomer: (custName: string) => console.log(custName)
+};
+
+// Task 04.04
+const offer: any = {
+    book: {
+        title: 'Essential Typescript'
+    }
+};
+
+// console.log(offer.magazine);
+// console.log(offer.magazine?.getTitle());
+// console.log(offer.book.getTitle?.());
+// console.log(offer.book.titles?.[0]);
+
+// Task 04.05
+type BookProperties = keyof Book;
+function getProperty(book: Book, prop: BookProperties): any {
+    if (typeof book[prop] === 'function') {
+        return book[prop]['name'];
+    }
+    return book[prop];
+}
+/* console.log(getProperty(myBook, 'title'));
+console.log(getProperty(myBook, 'markDamaged'));
+console.log(getProperty(myBook, 'isbn')); */
+
+// Task 05.01
+class ReferenceItem {
+    /* title: string;
+    year: number;
+
+    constructor(newTitle: string, newYear: number) {
+        console.log('Creating a new ReferenceItem...');
+        this.title = newTitle;
+        this.year = newYear;
+    } */
+
+    constructor(public title: string, private year: number, id: number) {
+        console.log('Creating a new ReferenceItem...');
+        this.#id = id;
+    }
+    #id: number;
+    private _publisher: string;
+    get publisher() {
+        return this._publisher.toUpperCase();
+    }
+    set publisher(newPublisher: string) {
+        this._publisher = newPublisher;
+    }
+    getID(): number {
+        return this.#id;
+    }
+    printItem(): void {
+        console.log(`${this.title} was published in ${this.year}`);
+        console.log(ReferenceItem.department);
+    }
+
+    static department: string = 'Classical literature';
+}
+
+const ref = new ReferenceItem('typescript', 2021, 1);
+ref.printItem();
+ref.publisher = 'publisher';
+console.log(ref);
+console.log(ref.getID());
+
