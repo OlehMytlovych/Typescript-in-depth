@@ -8,6 +8,11 @@ class Encyclopedia extends ReferenceItem {
     printCitation(): void {
         console.log(`${this.title} - ${this.year}`);
     }
+
+    printItem(): void {
+        super.printItem();
+        console.log('printing encyclopedia item');
+    }
 }
 
 export default Encyclopedia;

@@ -8,8 +8,8 @@ import {Book,
     Librarian,
     Magazine} from './interfaces';
 // import { ReferenceItem, UniversityLibrarian } from './classes';
-import { BookProperties, PersonBook, BookOrUndefined } from './types';
-import { showHello, createCustomerID, purge } from './functions';
+import { BookProperties, PersonBook, BookOrUndefined, BookRequiredFields, UpdatedBook, CreateCustomerFunctionType } from './types';
+import { showHello, createCustomerID, purge, getProperty, createCustomer } from './functions';
 import { ReferenceItem, UniversityLibrarian, RefBook, Reader, Shelf} from './classes';
 import type { Library } from './classes';
 
@@ -160,5 +160,43 @@ const bookShelf = new Shelf(inventory);
 const magazines = [{ title: 'Programming Language Monthly', publisher: 'Code Mags' },{ title: 'Literary Fiction Quarterly', publisher: 'College Press' },{ title: 'Five Points', publisher: 'GSU' }];
 const magazineShelf = new Shelf(magazines);
 // console.log(magazineShelf.getFirst().title);
-magazineShelf.printTitles();
+// 07.03
+// magazineShelf.printTitles();
+// console.log(magazineShelf.find('Five Points'));
 
+// console.log(getProperty<Magazine, 'title'>(magazines[0], 'title'));
+
+// Task 07.04
+/* const book: BookRequiredFields = {
+    author: 'as',
+    available: true,
+    category: Category.CSS,
+    id: 1,
+    markDamaged: null,
+    pages: 100500,
+    title: 'name'
+};
+
+const b: UpdatedBook = {
+    id: 1,
+    author: 'mimiko',
+}; */
+
+const params: Parameters<CreateCustomerFunctionType> = ['me'];
+// createCustomer(...params);
+
+// Task 08.01/02
+/* const l = new UniversityLibrarian();
+console.log(l);
+l['printLibrarian'](); */
+
+
+// Task 08.03
+/* const l = new UniversityLibrarian();
+l.assistFaculty = null;
+l.teachCommunity = null;
+console.log(l); */
+
+// Task 08.04
+const e = new RefBook(1, 'Tale', 1999, 2);
+e.printItem();

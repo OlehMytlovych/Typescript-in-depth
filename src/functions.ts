@@ -35,7 +35,14 @@ export function getBookTitlesByCategory(category: Category = Category.JavaScript
     } , []);
 }
 
-export function getProperty(book: Book, prop: BookProperties): any {
+/* export function getProperty(book: Book, prop: BookProperties): any {
+    if (typeof book[prop] === 'function') {
+        return book[prop]['name'];
+    }
+    return book[prop];
+} */
+
+export function getProperty<TObject, TKey extends keyof TObject>(book: TObject, prop: TKey): TObject[TKey] {
     if (typeof book[prop] === 'function') {
         return book[prop]['name'];
     }
