@@ -1,5 +1,5 @@
 /* eslint-disable no-redeclare */
-import { Book } from './interfaces';
+import { Book, LibMgrCallback } from './interfaces';
 import { BookOrUndefined, BookProperties } from './types';
 import { Category } from './enums';
 
@@ -134,4 +134,45 @@ export function printBook(book: Book): void {
 
 export function purge<T>(inventory: T[]): T[] {
     return inventory.slice(2);
+}
+
+export function getBooksByCategory(category: Category, callback: LibMgrCallback) {
+    setTimeout(() => {
+        try {
+            const titles = getBookTitlesByCategory(category);
+            if (titles.length) {
+                callback(null, titles);
+            } else {
+                throw new Error('No books found.');
+            }
+        } catch (err) {
+            callback(err, null);
+        }
+    }, 2000);
+}
+
+export function logCategorySearch(err: Error, titles: string[]): void {
+    if (err) {
+        console.log(err.message);
+    } else {
+        console.log(titles);
+    }
+}
+
+export function getBooksByCategoryPromise(category: Category): Promise<string[]> {
+    return new Promise<string[]>((resolve, reject) => {
+        setTimeout(() => {
+            const titles = getBookTitlesByCategory(category);
+            if (titles.length) {
+                resolve(titles);
+            } else {
+                reject('No books found.');
+            }
+        }, 2000);
+    });
+}
+
+export async function logSeachResults(category: Category): Promise<void> {
+    const result = await getBooksByCategoryPromise(category);
+    console.log(result);
 }

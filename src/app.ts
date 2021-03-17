@@ -9,7 +9,7 @@ import {Book,
     Magazine} from './interfaces';
 // import { ReferenceItem, UniversityLibrarian } from './classes';
 import { BookProperties, PersonBook, BookOrUndefined, BookRequiredFields, UpdatedBook, CreateCustomerFunctionType } from './types';
-import { showHello, createCustomerID, purge, getProperty, createCustomer } from './functions';
+import { showHello, createCustomerID, purge, getProperty, createCustomer, getBooksByCategory, logCategorySearch, getBooksByCategoryPromise, logSeachResults } from './functions';
 import { ReferenceItem, UniversityLibrarian, RefBook, Reader, Shelf} from './classes';
 import type { Library } from './classes';
 
@@ -198,5 +198,44 @@ l.teachCommunity = null;
 console.log(l); */
 
 // Task 08.04
-const e = new RefBook(1, 'Tale', 1999, 2);
-e.printItem();
+/* const e = new RefBook(1, 'Tale', 1999, 2);
+e.printItem(); */
+
+// task 08.05, 08.06
+/* const favouriteLiabrarian: Librarian = new UniversityLibrarian();
+favouriteLiabrarian.name = 'Anna';
+favouriteLiabrarian.assistCutomer('Oleh'); */
+
+// task 08.07
+/* const e = new RefBook(1, 'Unksa', 2021, 2);
+e.copies = 10;
+e.copies = 1.1; */
+
+// task 09.01
+/* console.log('start');
+getBooksByCategory(Category.JavaScript, logCategorySearch);
+getBooksByCategory(Category.Software, logCategorySearch);
+console.log('finish'); */
+
+// task 09.02
+/* console.log('start');
+getBooksByCategoryPromise(Category.JavaScript)
+    .then(titles => {
+        console.log(titles);
+        return titles.length;
+    })
+    .then(numOfBooks => console.log(numOfBooks))
+    .catch(err => console.log(err));
+
+getBooksByCategoryPromise(Category.Software)
+    .then(titles => console.log(titles))
+    .catch(err => console.log(err))
+    .then(err=> console.log(err));
+console.log('finish'); */
+
+// task 09.03
+console.log('start');
+logSeachResults(Category.JavaScript);
+logSeachResults(Category.Software)
+    .catch(err => console.log(err));
+console.log('finish');
